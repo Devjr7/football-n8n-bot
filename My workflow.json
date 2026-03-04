@@ -1,0 +1,94 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1478435496014381167/i5CtR1bovkCXn9owRT1jLD1zasjaxeL5MHmFZtcQXlVCHvhGLnRp7oBYecnEfDKQ5enB",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={\nALERT!guys\n{{ $('RSS Read').item.json.title }}{{ $('RSS Read').item.json.link }}{{ $json.pubDate }}{{ $json.content }}{{ $json.contentSnippet }}{{ $json.guid }}{{ $json.isoDate }}\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        0
+      ],
+      "id": "d2f5766b-7b16-47e2-b275-695bace977e7",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bddb914b-1e86-4e78-96b1-2fc32481f00e",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "maxItems": 7.5
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "5b068312-54e4-4148-a289-0036df547cdb",
+      "name": "Limit"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "99be21a4-24c9-48a8-bb5e-b0e8d522d0f1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eea2809621a23a19d346c67c30b4be3898d871a928bfa355c8a8ff570aa039ca"
+  },
+  "id": "8fwsQDsCUMvqh0Z3",
+  "tags": []
+}
